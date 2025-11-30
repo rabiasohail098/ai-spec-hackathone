@@ -1,0 +1,152 @@
+import ChapterControls from '@site/src/components/ChapterControls';
+
+# Chapter 2: Robotic Operating Systems
+
+<ChapterControls 
+  chapterTitle="Robotic Operating Systems" 
+  chapterContent={`# Chapter 2: Robotic Operating Systems
+
+## Overview
+
+Robotic Operating Systems (ROS) are specialized frameworks that provide services designed for robotics applications. Unlike traditional operating systems, ROS provides libraries, tools, and conventions that facilitate the creation of complex robotic behaviors across a wide variety of robotic platforms.
+
+## Introduction to ROS
+
+The Robot Operating System (ROS) is not actually an operating system but rather a flexible framework for writing robot software. It is a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robotic platforms.
+
+### Key Features of ROS
+
+- Hardware abstraction
+- Device drivers
+- Libraries
+- Visualizers
+- Message-passing
+- Package management
+- Real-time capabilities
+- Simulation environments
+
+## ROS Architecture
+
+### Nodes
+Nodes are processes that perform computation. ROS is designed to be modular at a fine-grained process level, with nodes typically performing a narrowly focused task. 
+
+### Topics and Messages
+Topics are named buses over which nodes exchange messages. In ROS, data is passed between nodes using a publish-subscribe messaging model. A node that sends a message to a topic is called a publisher, and a node that receives messages from a topic is called a subscriber.
+
+### Services
+Services provide a request/reply communication pattern. Services are defined by a pair of message structures: one for the request and one for the response.
+
+### Parameters
+ROS provides a parameter server for sharing data between nodes. Parameters are stored in a central location that all nodes can access.
+
+## ROS 2 vs ROS 1
+
+ROS 2 was developed to address the limitations and challenges of ROS 1, particularly in the areas of security, real-time performance, and deployment in production environments.
+
+### Key Differences:
+
+- **Middleware**: ROS 2 uses DDS (Data Distribution Service) as its underlying middleware
+- **Quality of Service (QoS)**: ROS 2 supports configurable QoS policies
+- **Lifecycle Management**: ROS 2 provides better lifecycle management for nodes
+- **Security**: ROS 2 includes security features not available in ROS 1
+- **Real-time Support**: ROS 2 has improved real-time support
+
+## Common ROS Concepts
+
+### Workspaces
+A ROS workspace is a directory that contains ROS packages that you create or modify. The standard workspace structure includes:
+
+- \`src\` directory for source code
+- \`build\` directory for intermediate build files
+- \`install\` directory for installation targets
+
+### Packages
+Packages are the fundamental unit of organization in ROS. A package contains:
+- Nodes
+- Libraries
+- Configuration files
+- Data files
+- Documentation
+
+### Launch Files
+Launch files allow you to start multiple nodes at once and configure parameters.
+
+## ROS Communication Patterns
+
+### Publisher-Subscriber (Topics)
+This is the most common communication pattern in ROS, where data flows from publishers to subscribers following a specific message type.
+
+### Client-Server (Services)
+Services provide a request-response communication pattern for more controlled interactions.
+
+### Action Libraries
+Actions provide a more sophisticated communication pattern for long-running tasks with feedback and status.
+
+## Popular ROS Distributions
+
+ROS has a release schedule with new distributions approximately every year. Some notable distributions include:
+
+- **ROS 1**: Melodic Morenia, Noetic Ninjemys
+- **ROS 2**: Foxy Fitzroy, Galactic Geochelone, Humble Hawksbill, Iron Irwini
+
+## Setting up a ROS Environment
+
+### Installation
+ROS can be installed on Ubuntu-based systems through package managers or from source. ROS 2 supports multiple operating systems including Windows, macOS, and various Linux distributions.
+
+### Environment Setup
+After installation, ROS environment variables must be sourced to use the installed ROS version.
+
+## Practical ROS Example
+
+Here's a simple example of how ROS nodes communicate:
+
+\`\`\`python
+# Publisher node
+import rospy
+from std_msgs.msg import String
+
+def talker():
+    pub = rospy.Publisher('chatter', String, queue_size=10)
+    rospy.init_node('talker', anonymous=True)
+    rate = rospy.Rate(10) # 10hz
+    while not rospy.is_shutdown():
+        hello_str = "hello world %s" % rospy.get_time()
+        rospy.loginfo(hello_str)
+        pub.publish(hello_str)
+        rate.sleep()
+
+if __name__ == '__main__':
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass
+\`\`\`
+
+## ROS Ecosystem
+
+### Simulation Tools
+- Gazebo: Physics-based simulation environment
+- RViz: 3D visualization tool for displaying robot models and sensor data
+- Rviz: Visualization tool for ROS
+
+### Common Packages
+- Navigation stack
+- MoveIt! for motion planning
+- OpenCV integration
+- PCL for point cloud processing
+- Perception packages
+
+## Best Practices in ROS Development
+
+- Use appropriate message types and design efficient data structures
+- Follow ROS naming conventions
+- Properly document packages and nodes
+- Use launch files for complex system setups
+- Implement proper error handling and logging
+- Use parameters for configuration values
+
+## Summary
+
+This chapter provided an overview of Robotic Operating Systems (ROS), focusing on ROS as the most popular framework. We covered the fundamental concepts of ROS architecture, communication patterns, and practical aspects of working with ROS. Understanding these concepts is essential for developing complex robotic applications that we will explore in later chapters.`}
+/>

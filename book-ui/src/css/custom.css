@@ -1,0 +1,418 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap");
+
+:root {
+    --ifm-font-family-base: "Inter", sans-serif;
+    --ifm-color-primary: #25c2a0;
+
+    /* Shared Vars */
+    --bg-dark: #050a14;
+    --card-bg-dark: #0f1623;
+}
+
+/* =========================================
+   1. BACKGROUND ANIMATIONS
+   ========================================= */
+body {
+    min-height: 100vh;
+    transition: background 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* --- DARK MODE: Aurora (UNTOUCHED) --- */
+[data-theme="dark"] {
+    background: linear-gradient(-45deg, #02040a, #0b1221, #081c19, #02040a);
+    background-size: 400% 400%;
+    background-attachment: fixed;
+    animation: gradientBG 15s ease infinite;
+
+    --ifm-background-color: transparent;
+    --ifm-font-color-base: #ffffff;
+    --ifm-heading-color: #ffffff;
+    --ifm-navbar-background-color: rgba(5, 10, 20, 0.7);
+    --ifm-footer-background-color: transparent;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* --- LIGHT MODE: Floating Mesh --- */
+[data-theme="light"] {
+    background-color: #ffffff;
+    background-image:
+        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 0) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0) 0, transparent 50%);
+    background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    position: relative;
+
+    --ifm-background-color: #ffffff;
+    --ifm-font-color-base: #000000;
+    --ifm-heading-color: #000000;
+    --ifm-navbar-background-color: #000000; /* Solid Black Header */
+    --ifm-navbar-link-color: #ffffff;
+}
+
+/* Moving overlay for Light Mode */
+[data-theme="light"]::before {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+        radial-gradient(circle, rgba(37, 194, 160, 0.1), transparent 40%),
+        radial-gradient(circle, rgba(79, 172, 254, 0.1), transparent 40%);
+    background-size:
+        50% 50%,
+        50% 50%;
+    background-position:
+        0 0,
+        100% 100%;
+    animation: lightMove 15s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+@keyframes lightMove {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================
+   2. TEXT & HEADINGS
+   ========================================= */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] p,
+[data-theme="light"] span {
+    color: #000000 !important;
+    opacity: 1 !important;
+}
+
+/* Light Mode Heading Glow Animation */
+[data-theme="light"] h1.hero__title span {
+    background: none !important;
+    -webkit-text-fill-color: #000000 !important;
+    color: #000000 !important;
+    animation: glowShadow 3s ease-in-out infinite alternate;
+}
+@keyframes glowShadow {
+    from {
+        text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+    to {
+        text-shadow: 4px 4px 20px rgba(37, 194, 160, 0.6);
+    }
+}
+
+/* =========================================
+   3. NEON BUTTONS (Dark & Light)
+   ========================================= */
+.neon-button {
+    position: relative;
+    display: inline-block;
+    padding: 2px;
+    border-radius: 30px;
+    overflow: hidden;
+    text-decoration: none !important;
+    z-index: 1;
+    margin: 0.5rem;
+}
+
+/* Dark Mode Button */
+[data-theme="dark"] .neon-button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, #25c2a0, transparent 60%);
+    animation: rotate 3s linear infinite;
+    display: block;
+    z-index: -2;
+}
+[data-theme="dark"] .neon-button span {
+    display: block;
+    padding: 1rem 2.5rem;
+    background: rgba(37, 194, 160, 0.1);
+    color: #fff;
+    border-radius: 28px;
+    backdrop-filter: blur(5px);
+}
+
+/* --- LIGHT MODE BUTTON (SOLID) --- */
+[data-theme="light"] .neon-button::before {
+    display: block; /* Hide spinning border in light mode */
+}
+[data-theme="light"] .neon-button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, #25c2a0, transparent 60%);
+    animation: rotate 3s linear infinite; /* SPINNING IS BACK */
+    z-index: -2;
+    display: block;
+}
+[data-theme="light"] .neon-button span {
+    display: block;
+    padding: 1rem 2.5rem;
+    background: rgba(37, 194, 160, 0.1); /* Inner dark bg */
+    color: #25c2a0;
+    border-radius: 28px;
+    backdrop-filter: blur(5px);
+    border: 2px solid black;
+    z-index: 2;
+}
+
+[data-theme="light"] .neon-button:hover span {
+    background: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   4. CARDS ANIMATION (ROTATING BOTH THEMES)
+   ========================================= */
+.neon-border-box {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1;
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+/* --- SHARED ROTATION ANIMATION --- */
+.neon-border-box::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    animation: rotate 4s linear infinite;
+    z-index: -2;
+    display: block; /* Ensure it shows in both modes */
+}
+
+/* DARK MODE COLORS (Green Neon) */
+[data-theme="dark"] .neon-border-box::before {
+    background: conic-gradient(transparent, transparent, transparent, #25c2a0);
+}
+/* Inner Card Dark */
+[data-theme="dark"] .neon-border-box::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: var(--card-bg-dark);
+    border-radius: 10px;
+    z-index: -1;
+}
+
+/* LIGHT MODE COLORS (Blue/Teal Gradient - VISIBLE ON WHITE) */
+[data-theme="light"] .neon-border-box::before {
+    /* Using Blue & Green to stand out on white */
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        #0ea5e9,
+        #25c2a0
+    );
+}
+/* Inner Card White */
+[data-theme="light"] .neon-border-box::after {
+    content: "";
+    position: absolute;
+    inset: 2px; /* Border thickness */
+    background: #ffffff; /* White center */
+    border-radius: 10px;
+    z-index: -1;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
+}
+
+/* Hover Speed Up */
+.neon-border-box:hover::before {
+    animation-duration: 2s;
+}
+.neon-border-box:hover {
+    transform: translateY(-5px);
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Content Padding */
+.feature-card-content {
+    padding: 2rem;
+    text-align: center;
+    height: 100%;
+}
+[data-theme="light"] .feature-card-content p {
+    color: #475569;
+}
+
+/* =========================================
+   5. HEADER & FOOTER & TOGGLE FIX
+   ========================================= */
+.navbar {
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid;
+}
+
+/* Light Mode Header = Dark Black */
+[data-theme="light"] .navbar {
+    background-color: #000000 !important;
+    color: #fdfbfb;
+    border-bottom: 1px solid #333;
+}
+[data-theme="light"] .navbar__title,
+[data-theme="light"] .navbar__link {
+    color: #fff !important;
+}
+
+/* --- TOGGLE BUTTON FIX --- */
+/* Since Header is Black in Light Mode, Icon must be White */
+[data-theme="light"] .navbar .clean-btn svg {
+    fill: #ffffff !important;
+}
+[data-theme="dark"] .navbar .clean-btn svg {
+    fill: #ffffff !important;
+}
+
+/* Footer */
+[data-theme="light"] .footer {
+    background-color: #000000;
+    color: #fff;
+}
+
+/* Professional Footer Styling */
+.footer {
+    background: linear-gradient(135deg, #0f1623 0%, #1a2a3a 100%);
+    padding: 4rem 0 2rem 0;
+    border-top: 1px solid rgba(37, 194, 160, 0.2);
+}
+
+.footer__title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #25c2a0;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.footer__title::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: #25c2a0;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+}
+
+.footer__link-item {
+    color: #cbd5e1;
+    transition: all 0.3s ease;
+    display: block;
+    margin-bottom: 0.7rem;
+    position: relative;
+    padding-left: 0.8rem;
+}
+
+.footer__link-item::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #25c2a0;
+    opacity: 0.7;
+}
+
+.footer__link-item:hover {
+    color: #25c2a0;
+    transform: translateX(3px);
+    text-shadow: 0 0 5px rgba(37, 194, 160, 0.5);
+}
+
+.footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.footer__copyright {
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+/* Footer Logo */
+.footer__logo {
+    max-height: 40px;
+    margin-bottom: 1rem;
+}
+
+/* Social Links in Footer */
+.footer__socials {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.footer__social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(37, 194, 160, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #25c2a0;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.footer__social-link:hover {
+    background: #25c2a0;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(37, 194, 160, 0.4);
+}
+
+/* Dark Mode Specific Footer Enhancements */
+[data-theme="dark"] .footer {
+    background: linear-gradient(135deg, #0a0f1a 0%, #0f1623 100%);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .footer__link-item {
+    color: #a0aec0;
+}
+
+[data-theme="dark"] .footer__copyright {
+    color: #718096;
+}

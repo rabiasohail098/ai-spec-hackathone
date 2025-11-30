@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: RAG-Backend API
+  description: API for the RAG (Retrieval Augmented Generation) backend service
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+
+paths:
+  /ingest:
+    post:
+      summary: Ingest book content into the vector database
+      description: Takes documents and indexes them in the vector database for later retrieval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                documents:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Document'
+              required:
+                - documents
+      responses:
+        '200':
+          description: Documents successfully ingested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                example:
+                  success: true
+                  message: "Documents successfully indexed in vector database"
+        '400':
+          description: Invalid request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /chat:
+    post:
+      summary: Chat endpoint for querying book content
+      description: Takes a user query and returns an AI-generated response based on book content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: AI-generated response to the query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the document
+        content:
+          type: string
+          description: The text content of the document
+        metadata:
+          type: object
+          description: Additional metadata about the document
+        embedding:
+          type: array
+          items:
+            type: number
+          description: Vector embedding of the document content
+      required:
+        - id
+        - content
+        - metadata
+
+    QueryRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The user's query about the book content
+          example: "What are the key concepts in chapter 3?"
+        top_k:
+          type: integer
+          description: Number of relevant documents to retrieve (default 5)
+          default: 5
+      required:
+        - query
+
+    QueryResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+          description: AI-generated response based on book content
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+          description: Documents used to generate the response
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "An error occurred processing the request"
+        error_code:
+          type: string
+          example: "INTERNAL_ERROR"
+      required:
+        - success
+        - message

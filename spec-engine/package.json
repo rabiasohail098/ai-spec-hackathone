@@ -1,0 +1,23 @@
+{
+  "name": "spec-engine",
+  "version": "1.0.0",
+  "description": "AI Book Generator Agent",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "generate": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "fs-extra": "^11.2.0",
+    "openai": "^4.24.7",
+    "toml": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.19.25",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

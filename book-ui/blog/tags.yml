@@ -1,0 +1,44 @@
+facebook:
+  label: Facebook
+  permalink: /facebook
+  description: Facebook tag description
+
+hello:
+  label: Hello
+  permalink: /hello
+  description: Hello tag description
+
+docusaurus:
+  label: Docusaurus
+  permalink: /docusaurus
+  description: Docusaurus tag description
+
+hola:
+  label: Hola
+  permalink: /hola
+  description: Hola tag description
+
+ai:
+  label: AI Engineering
+  permalink: /ai
+  description: Articles about AI Engineering principles and practices
+
+llm:
+  label: Large Language Models
+  permalink: /llm
+  description: Content about Large Language Models and their applications
+
+rag:
+  label: Retrieval Augmented Generation
+  permalink: /rag
+  description: Resources on RAG architecture and vector databases
+
+spec-driven:
+  label: Spec-Driven Development
+  permalink: /spec-driven
+  description: Specification-driven development methodologies
+
+agents:
+  label: AI Agents
+  permalink: /agents
+  description: AI agents vs chatbots and autonomous systems

@@ -1,0 +1,51 @@
+[book]
+title = "Physical AI & Humanoid Robotics: A Comprehensive Guide"
+author = "Hackathon AI Agent"
+
+# Chapter 1: Introduction to Physical AI
+[[chapters]]
+id = "01-introduction"
+title = "1. Introduction to Physical AI & Embodied Intelligence"
+prompt = "Write a comprehensive introduction chapter about Physical AI and Embodied Intelligence. Discuss how AI systems function in the physical world, the importance of bridging the gap between digital brain and physical body, and why Physical AI matters in the future of robotics. Include the concept of embodied intelligence. Output in Markdown."
+
+# Chapter 2: The Robotic Nervous System (ROS 2)
+[[chapters]]
+id = "02-ros2"
+title = "2. The Robotic Nervous System: ROS 2 Fundamentals"
+prompt = "Explain ROS 2 (Robot Operating System 2) in detail. Discuss ROS 2 Nodes, Topics, Services, Actions, and how to bridge Python Agents to ROS controllers using rclpy. Cover the architecture of ROS 2 and understanding URDF (Unified Robot Description Format) for humanoids. Output in Markdown."
+
+# Chapter 3: Digital Twin (Gazebo & Unity)
+[[chapters]]
+id = "03-digital-twin"
+title = "3. The Digital Twin: Simulation with Gazebo and Unity"
+prompt = "Describe physics simulation and environment building with Gazebo and Unity. Explain simulating physics, gravity, collisions in Gazebo, high-fidelity rendering and human-robot interaction in Unity, and simulating sensors like LiDAR, Depth Cameras, and IMUs. Output in Markdown."
+
+# Chapter 4: AI-Robot Brain (NVIDIA Isaac)
+[[chapters]]
+id = "04-ai-robot-brain"
+title = "4. The AI-Robot Brain: NVIDIA Isaac Platform"
+prompt = "Explain the NVIDIA Isaac platform for AI-powered robotics. Cover NVIDIA Isaac Sim for photorealistic simulation and synthetic data generation, Isaac ROS for hardware-accelerated VSLAM (Visual SLAM) and navigation, and Nav2 for path planning for bipedal humanoid movement. Output in Markdown."
+
+# Chapter 5: Vision-Language-Action (VLA)
+[[chapters]]
+id = "05-vla"
+title = "5. Vision-Language-Action: The Convergence of LLMs and Robotics"
+prompt = "Describe the convergence of LLMs and Robotics with Voice-to-Action using OpenAI Whisper for voice commands, cognitive planning using LLMs to translate natural language into a sequence of ROS 2 actions, and how to build a capstone project of an autonomous humanoid that receives voice commands, plans paths, navigates obstacles, identifies objects, and manipulates them. Output in Markdown."
+
+# Chapter 6: Hardware Requirements & Architecture
+[[chapters]]
+id = "06-hardware"
+title = "6. Hardware Requirements and Architecture for Physical AI"
+prompt = "Detail the hardware requirements for Physical AI courses, including 'Digital Twin' workstations with RTX 4070+ GPUs, 64GB RAM, Ubuntu 22.04; 'Physical AI' Edge Kits with NVIDIA Jetson Orin Nano, Intel RealSense cameras, IMUs; and Robot Lab options including Unitree Go2 Edu, Unitree G1, and Hiwonder TonyPi Pro. Also explain the cloud-based 'Ether' Lab alternative. Output in Markdown."
+
+# Chapter 7: Learning Outcomes & Course Structure
+[[chapters]]
+id = "07-course-structure"
+title = "7. Learning Outcomes & Course Structure"
+prompt = "Outline the learning outcomes for a Physical AI & Humanoid Robotics course, including understanding Physical AI principles, mastering ROS 2, simulating robots with Gazebo and Unity, developing with NVIDIA Isaac, designing humanoid robots, and integrating GPT models for conversational robotics. Include the weekly breakdown: Weeks 1-2 Introduction, Weeks 3-5 ROS 2, Weeks 6-7 Simulation, Weeks 8-10 Isaac Platform, Weeks 11-12 Humanoid Development, Week 13 Conversational Robotics. Output in Markdown."
+
+# Chapter 8: Future of Humanoid Robotics
+[[chapters]]
+id = "08-future"
+title = "8. The Future of Humanoid Robotics"
+prompt = "Discuss the future of humanoid robots in human-centered environments, why they excel in human world due to shared physical form, data advantages, and the transition from AI models in digital environments to embodied intelligence in physical space. Include industry trends and potential applications. Output in Markdown."
