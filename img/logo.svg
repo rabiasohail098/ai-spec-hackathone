@@ -1,0 +1,43 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Main circular frame -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gradient)" stroke-width="8"/>
+  
+  <!-- Central AI/Robot symbol -->
+  <g transform="translate(65, 60)">
+    <!-- Head with sensors -->
+    <circle cx="35" cy="15" r="15" fill="url(#gradient)" opacity="0.9"/>
+    <!-- Sensor/light -->
+    <circle cx="35" cy="15" r="5" fill="#ffffff" opacity="0.8"/>
+    
+    <!-- Body -->
+    <rect x="25" y="30" width="20" height="30" rx="10" fill="url(#gradient)" opacity="0.7"/>
+    
+    <!-- Left arm -->
+    <line x1="25" y1="35" x2="10" y2="45" stroke="url(#gradient)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    
+    <!-- Right arm -->
+    <line x1="45" y1="35" x2="60" y2="45" stroke="url(#gradient)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    
+    <!-- Left leg -->
+    <line x1="30" y1="60" x2="25" y2="80" stroke="url(#gradient)" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    
+    <!-- Right leg -->
+    <line x1="40" y1="60" x2="45" y2="80" stroke="url(#gradient)" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    
+    <!-- Eyes -->
+    <circle cx="30" cy="12" r="2" fill="#ffffff" opacity="0.9"/>
+    <circle cx="40" cy="12" r="2" fill="#ffffff" opacity="0.9"/>
+  </g>
+  
+  <!-- Decorative elements -->
+  <circle cx="40" cy="50" r="5" fill="url(#gradient)" opacity="0.6"/>
+  <circle cx="160" cy="80" r="5" fill="url(#gradient)" opacity="0.6"/>
+  <path d="M60 150 Q100 130 140 150" stroke="url(#gradient)" stroke-width="2" fill="none" opacity="0.3"/>
+</svg>
