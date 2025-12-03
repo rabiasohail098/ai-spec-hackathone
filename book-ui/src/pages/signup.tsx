@@ -1,236 +1,263 @@
 import React, { useState } from 'react';
 import Layout from '@theme/Layout';
-import { useHistory } from 'react-router-dom'; // Docusaurus uses older react-router APIs
+import Link from '@docusaurus/Link';
+import { useHistory, useLocation } from '@docusaurus/router';
+import { useAuth } from '../contexts/AuthContext';
 
-const SignUpPage = () => {
+export default function SignupPage() {
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    softwareBackground: '',
+    hardwareBackground: '',
+    interests: []
   });
-  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const { register } = useAuth();
   const history = useHistory();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const validate = () => {
-    const newErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validate()) {
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
       return;
     }
 
-    // Simulate API call to register user
-    try {
-      // Simulate API call with a timeout
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    setLoading(true);
+    setError(null);
 
-      // In this example, we'll create a mock user based on the registration
-      // In a real application, you would receive a user object from your backend
-      const mockUser = {
-        id: '2', // This would come from your API response
-        name: formData.name,
-        email: formData.email,
-      };
+    const success = await register(
+      formData.firstName,
+      formData.lastName,
+      formData.email,
+      formData.password,
+      formData.softwareBackground,
+      formData.hardwareBackground
+    );
 
-      // Store user data in localStorage to simulate authentication
-      localStorage.setItem('user', JSON.stringify(mockUser));
-
-      // After successful registration and login, redirect to home
-      // Force a page reload to ensure all components update with the new auth state
-      window.location.href = '/';
-    } catch (error) {
-      console.error('Registration error:', error);
+    if (success) {
+      // After successful registration, navigate to the sign-in page
+      history.push('/signin', { registered: true });
+    } else {
+      setError("Registration failed. Please try again.");
     }
+
+    setLoading(false);
   };
 
   return (
-    <Layout title="Sign Up" description="Create an account for Physical AI & Humanoid Robotics">
-      <div className="container margin-vert--lg">
-        <div className="row">
-          <div className="col col--6 col--offset-3">
-            <div className="card" style={{ background: 'var(--ifm-color-emphasis-100)', border: '1px solid var(--ifm-color-emphasis-200)' }}>
-              <div className="card__header text--center" style={{ paddingBottom: '1.5rem' }}>
-                <h2 style={{ color: '#25c2a0', fontWeight: 'bold' }}>Create an Account</h2>
-                <p style={{ color: 'var(--ifm-color-emphasis-600)', marginBottom: 0 }}>Join our Physical AI & Humanoid Robotics community</p>
-              </div>
-              <div className="card__body" style={{ padding: '2rem' }}>
-                <form onSubmit={handleSubmit}>
-                  <div className="margin-bottom--lg">
-                    <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--ifm-color-emphasis-800)' }}>
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      className="form-control"
-                      style={{
-                        padding: '0.75rem 1rem',
-                        fontSize: '1rem',
-                        border: '1px solid var(--ifm-color-emphasis-300)',
-                        borderRadius: 'var(--ifm-global-radius)',
-                        width: '100%',
-                        background: 'var(--ifm-background-surface-color)'
-                      }}
-                      value={formData.name}
-                      onChange={handleChange}
-                    />
-                    {errors.name && (
-                      <div className="alert alert--danger margin-top--sm" style={{ padding: '0.5rem', fontSize: '0.85rem' }}>
-                        {errors.name}
-                      </div>
-                    )}
-                  </div>
+    <Layout title="Sign Up" description="Create an account to access personalized content">
+      <div style={{
+        minHeight: '70vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2rem 0',
+      }}>
+        <div style={{
+          width: '100%',
+          maxWidth: '600px',
+          margin: '0 auto',
+          padding: '2rem',
+          borderRadius: '10px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+          backgroundColor: 'var(--ifm-background-color)',
+        }}>
+          <h1 style={{textAlign: 'center', marginBottom: '2rem', color: 'var(--ifm-color-primary)'}}>Create Account</h1>
 
-                  <div className="margin-bottom--lg">
-                    <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--ifm-color-emphasis-800)' }}>
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      className="form-control"
-                      style={{
-                        padding: '0.75rem 1rem',
-                        fontSize: '1rem',
-                        border: '1px solid var(--ifm-color-emphasis-300)',
-                        borderRadius: 'var(--ifm-global-radius)',
-                        width: '100%',
-                        background: 'var(--ifm-background-surface-color)'
-                      }}
-                      value={formData.email}
-                      onChange={handleChange}
-                    />
-                    {errors.email && (
-                      <div className="alert alert--danger margin-top--sm" style={{ padding: '0.5rem', fontSize: '0.85rem' }}>
-                        {errors.email}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="margin-bottom--lg">
-                    <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--ifm-color-emphasis-800)' }}>
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      className="form-control"
-                      style={{
-                        padding: '0.75rem 1rem',
-                        fontSize: '1rem',
-                        border: '1px solid var(--ifm-color-emphasis-300)',
-                        borderRadius: 'var(--ifm-global-radius)',
-                        width: '100%',
-                        background: 'var(--ifm-background-surface-color)'
-                      }}
-                      value={formData.password}
-                      onChange={handleChange}
-                    />
-                    {errors.password && (
-                      <div className="alert alert--danger margin-top--sm" style={{ padding: '0.5rem', fontSize: '0.85rem' }}>
-                        {errors.password}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="margin-bottom--lg">
-                    <label htmlFor="confirmPassword" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--ifm-color-emphasis-800)' }}>
-                      Confirm Password
-                    </label>
-                    <input
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      className="form-control"
-                      style={{
-                        padding: '0.75rem 1rem',
-                        fontSize: '1rem',
-                        border: '1px solid var(--ifm-color-emphasis-300)',
-                        borderRadius: 'var(--ifm-global-radius)',
-                        width: '100%',
-                        background: 'var(--ifm-background-surface-color)'
-                      }}
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                    />
-                    {errors.confirmPassword && (
-                      <div className="alert alert--danger margin-top--sm" style={{ padding: '0.5rem', fontSize: '0.85rem' }}>
-                        {errors.confirmPassword}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="margin-bottom--md">
-                    <button
-                      type="submit"
-                      className="button button--primary button--block"
-                      style={{
-                        padding: '0.75rem 1rem',
-                        fontSize: '1rem',
-                        background: '#25c2a0',
-                        borderColor: '#25c2a0',
-                        borderRadius: 'var(--ifm-global-radius)',
-                        fontWeight: 'bold',
-                        width: '100%'
-                      }}
-                    >
-                      Create Account
-                    </button>
-                  </div>
-                </form>
-              </div>
-              <div className="card__footer text--center" style={{ paddingTop: '1rem' }}>
-                <p className="margin-bottom--sm">
-                  Already have an account?{' '}
-                  <a href="/signin" style={{ color: '#25c2a0', fontWeight: '500' }}>Sign in here</a>
-                </p>
-                <p style={{ fontSize: '0.85rem', color: 'var(--ifm-color-emphasis-600)' }}>
-                  By signing up, you agree to our <a href="#" style={{ color: '#25c2a0' }}>Terms of Service</a> and <a href="#" style={{ color: '#25c2a0' }}>Privacy Policy</a>
-                </p>
-              </div>
+          {error && (
+            <div style={{
+              padding: '1rem',
+              backgroundColor: '#fee',
+              color: '#c33',
+              border: '1px solid #fcc',
+              borderRadius: '6px',
+              marginBottom: '1.5rem'
+            }}>
+              {error}
             </div>
-          </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div style={{marginBottom: '1.5rem'}}>
+              <label htmlFor="firstName" style={{display: 'block', marginBottom: '.5rem'}}>First Name *</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--ifm-color-emphasis-300)',
+                  backgroundColor: 'var(--ifm-background-color)',
+                  color: 'var(--ifm-font-color-base)'
+                }}
+              />
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <label htmlFor="lastName" style={{display: 'block', marginBottom: '.5rem'}}>Last Name *</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--ifm-color-emphasis-300)',
+                  backgroundColor: 'var(--ifm-background-color)',
+                  color: 'var(--ifm-font-color-base)'
+                }}
+              />
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <label htmlFor="email" style={{display: 'block', marginBottom: '.5rem'}}>Email Address *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--ifm-color-emphasis-300)',
+                  backgroundColor: 'var(--ifm-background-color)',
+                  color: 'var(--ifm-font-color-base)'
+                }}
+              />
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <label htmlFor="password" style={{display: 'block', marginBottom: '.5rem'}}>Password *</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength={8}
+                style={{
+                  width: '100%',
+                  padding: '.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--ifm-color-emphasis-300)',
+                  backgroundColor: 'var(--ifm-background-color)',
+                  color: 'var(--ifm-font-color-base)'
+                }}
+              />
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <label htmlFor="confirmPassword" style={{display: 'block', marginBottom: '.5rem'}}>Confirm Password *</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--ifm-color-emphasis-300)',
+                  backgroundColor: 'var(--ifm-background-color)',
+                  color: 'var(--ifm-font-color-base)'
+                }}
+              />
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <label htmlFor="softwareBackground" style={{display: 'block', marginBottom: '.5rem'}}>Software Background</label>
+              <textarea
+                id="softwareBackground"
+                name="softwareBackground"
+                value={formData.softwareBackground}
+                onChange={handleChange}
+                placeholder="Describe your software development experience, programming languages you know, etc."
+                rows={3}
+                style={{
+                  width: '100%',
+                  padding: '.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--ifm-color-emphasis-300)',
+                  backgroundColor: 'var(--ifm-background-color)',
+                  color: 'var(--ifm-font-color-base)'
+                }}
+              />
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <label htmlFor="hardwareBackground" style={{display: 'block', marginBottom: '.5rem'}}>Hardware Background</label>
+              <textarea
+                id="hardwareBackground"
+                name="hardwareBackground"
+                value={formData.hardwareBackground}
+                onChange={handleChange}
+                placeholder="Describe your hardware experience, robotics, electronics, etc."
+                rows={3}
+                style={{
+                  width: '100%',
+                  padding: '.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--ifm-color-emphasis-300)',
+                  backgroundColor: 'var(--ifm-background-color)',
+                  color: 'var(--ifm-font-color-base)'
+                }}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '1rem',
+                backgroundColor: loading ? '#ccc' : 'var(--ifm-color-primary)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '1.1rem',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'background-color 0.3s'
+              }}
+            >
+              {loading ? 'Creating Account...' : 'Create Account'}
+            </button>
+          </form>
+
+          <p style={{textAlign: 'center', marginTop: '1.5rem'}}>
+            Already have an account? <Link to="/signin">Sign In</Link>
+          </p>
         </div>
       </div>
     </Layout>
   );
-};
-
-export default SignUpPage;
+}

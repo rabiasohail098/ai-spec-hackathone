@@ -1,46 +1,23 @@
 // src/components/LoginLogout.tsx
 import React from 'react';
 import Link from '@docusaurus/Link';
+import { useAuth } from '../contexts/AuthContext';
 
 const LoginLogout: React.FC = () => {
-  // Check if we're in the browser (client-side) and if user is logged in by checking localStorage
-  const isClient = typeof window !== 'undefined';
-
-  let isAuthenticated = false;
-  let user = null;
-
-  if (isClient) {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        user = JSON.parse(storedUser);
-        isAuthenticated = true;
-      } catch (error) {
-        console.error('Failed to parse user from localStorage', error);
-        localStorage.removeItem('user');
-      }
-    }
-  }
+  const { user, isAuthenticated, logout } = useAuth();
 
   const handleLogout = () => {
-    if (isClient) {
-      localStorage.removeItem('user');
-      // Trigger a window storage event so other components can update
-      window.dispatchEvent(new StorageEvent('storage', {
-        key: 'user',
-        oldValue: JSON.stringify(user),
-        newValue: null
-      }));
-      // Reload the page to ensure all components update
-      window.location.href = '/';
-    }
+    logout();
+    // Navigate to home after logout
+    window.location.href = '/';
   };
 
   if (isAuthenticated && user) {
+    const displayName = user.first_name || user.email.split('@')[0];
     return (
       <div className="navbar__item dropdown dropdown--right dropdown--username">
         <span className="navbar__link">
-          Hello, {user.name}!
+          Hello, {displayName}!
         </span>
         <ul className="dropdown__menu">
           <li>

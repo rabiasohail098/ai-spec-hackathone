@@ -1,3 +1,4 @@
+
 # PowerShell script to set up the project structure
 # Creates the required folders and empty files for the RAG backend and spec engine
 

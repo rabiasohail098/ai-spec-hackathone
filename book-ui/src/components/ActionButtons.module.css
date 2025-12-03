@@ -1,0 +1,112 @@
+/**
+ * ActionButtons Component Styles
+ *
+ * Responsive styles for AI action buttons that appear on text selection.
+ * Optimized for both desktop and mobile interactions.
+ */
+
+.actionButtons {
+    z-index: 1000;
+    pointer-events: all;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 8px;
+    background: #333;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeInUp 0.2s ease-out;
+}
+
+.actionButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 12px;
+    background: #333;
+    border: 2px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-width: 70px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.actionButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.actionButton:active {
+    transform: translateY(0);
+}
+
+.icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.label {
+    font-size: 11px;
+    white-space: nowrap;
+    color: #333;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .buttonContainer {
+        flex-wrap: wrap;
+        max-width: 90vw;
+        justify-content: center;
+    }
+
+    .actionButton {
+        min-width: 65px;
+        padding: 12px 10px;
+        /* Larger touch targets for mobile */
+    }
+
+    .icon {
+        font-size: 20px;
+    }
+
+    .label {
+        font-size: 10px;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px) translateX(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .buttonContainer {
+        background: #2d2d2d;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .actionButton {
+        background: #3d3d3d;
+        color: #fff;
+    }
+
+    .label {
+        color: #e0e0e0;
+    }
+}

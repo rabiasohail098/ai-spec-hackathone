@@ -1,6 +1,5 @@
 // src/AppWrapper.tsx
 import React, { ReactNode } from 'react';
-import { AuthProvider } from './contexts/AuthContext';
 
 interface AppWrapperProps {
   children: ReactNode;
@@ -8,9 +7,9 @@ interface AppWrapperProps {
 
 const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
   return (
-    <AuthProvider>
+    <>
       {children}
-    </AuthProvider>
+    </>
   );
 };
 

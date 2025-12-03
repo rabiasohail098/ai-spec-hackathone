@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    environment:
+      - QDRANT_API_KEY=${QDRANT_API_KEY:-}
+
+  backend:
+    build: .
+    container_name: clean-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - qdrant
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./test.db}
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_API_KEY=${QDRANT_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./docs:/app/docs
+    command: [
+      "uvicorn", 
+      "main:app", 
+      "--host", 
+      "0.0.0.0", 
+      "--port", 
+      "8000",
+      "--reload"
+    ]
+
+volumes:
+  qdrant_storage:

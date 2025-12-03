@@ -1,56 +1,55 @@
-<!-- SYNC IMPACT REPORT
-Version change: 1.0.0 → 1.0.0 (initial creation)
-Modified principles: None (new file)
-Added sections: All principles from user input
-Removed sections: None
-Templates requiring updates: N/A (initial constitution)
-Follow-up TODOs: None
--->
-# AI Spec Hackathon Constitution
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
 
-### Senior Developer Standards
-Code must be modular, reusable, and strictly typed using TypeScript for Node.js applications and Pydantic for Python applications. This ensures maintainability, reduces runtime errors, and facilitates collaboration among team members.
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-### Monorepo Structure
-Respect the existing folder structure with distinct projects (book-ui, rag-backend, spec-engine). Do not mix concerns between different subsystems. Each project should maintain its own dependencies and clear boundaries to ensure independent development and deployment capabilities.
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-### Documentation
-Every major function, class, and module must have comprehensive comments explaining inputs, outputs, and any side effects. Documentation is not optional but a core requirement for all code committed to the repository. This ensures knowledge transferability and maintainability.
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-### Error Handling
-No silent failures are acceptable. All errors must be caught using try-catch blocks and properly logged with sufficient context to enable debugging. Applications must fail gracefully while providing meaningful error messages to users and developers.
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-### Security
-Never hardcode API keys, secrets, or credentials in source code. Always use environment variables (process.env) or .env files for configuration. All sensitive data must be handled securely, and security best practices must be followed throughout the development lifecycle.
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-## Additional Constraints
+### [PRINCIPLE_6_NAME]
 
-### Technology Stack Requirements
-- Frontend: React/TypeScript with Docusaurus for documentation sites
-- Backend: Python with FastAPI and Pydantic for type validation
-- Infrastructure: Configuration through environment variables
-- Testing: Unit and integration tests for all critical functionality
 
-### Performance Standards
-Applications must be designed with performance in mind. This includes efficient algorithms, proper caching strategies, and optimized database queries where applicable.
+[PRINCIPLE__DESCRIPTION]
 
-## Development Workflow
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
 
-### Code Review Policy
-All code changes must undergo peer review before merging. Reviews must verify compliance with all constitutional principles, particularly documentation and error handling requirements.
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
 
-### Quality Gates
-- All tests must pass before merging
-- Code must be properly documented
-- Static analysis tools must pass
-- Security scanning must pass
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
 ## Governance
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-This constitution supersedes all other development practices within the project. Amendments to this constitution require explicit approval from senior team members and must be documented with clear justification.
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
 
-All pull requests and code reviews must verify compliance with these principles. The development team is required to follow the guidelines outlined in this document, and deviations must be justified and approved.
-
-**Version**: 1.0.0 | **Ratified**: 2025-11-24 | **Last Amended**: 2025-11-24
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->

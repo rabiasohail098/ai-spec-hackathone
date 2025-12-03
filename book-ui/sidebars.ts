@@ -16,7 +16,7 @@ const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     {
       type: 'category',
-      label: 'Introduction to Robotics, AI, and Digital Systems',
+      label: 'Physical AI & Humanoid Robotics',
       collapsed: false,
       items: [
         'index',
@@ -25,39 +25,28 @@ const sidebars: SidebarsConfig = {
           label: 'Part I: Foundations',
           collapsed: false,
           items: [
-            'chapter-1/introduction-to-robotics',
-            'chapter-2/robotic-operating-systems',
-            'chapter-3/sensors-actuators'
+            'chapter-1/introduction-to-physical-ai',
+            'chapter-2/ros2-fundamentals',
+            'chapter-3/digital-twin-simulation'
           ]
         },
         {
           type: 'category',
-          label: 'Part II: Building Digital Twins',
+          label: 'Part II: AI-Robot Integration',
           collapsed: false,
           items: [
-            'chapter-4/introduction-digital-twins',
-            'chapter-5/simulation-environments',
-            'chapter-6/physics-modeling-rendering'
+            'chapter-4/ai-robot-brain-isaac',
+            'chapter-5/vision-language-action',
+            'chapter-6/autonomous-humanoid-capstone'
           ]
         },
         {
           type: 'category',
-          label: 'Part III: AI and Cognitive Systems',
+          label: 'Part III: Advanced Topics',
           collapsed: false,
           items: [
             'chapter-7/ai-for-robotics',
-            'chapter-8/computer-vision-navigation',
-            'chapter-9/cognitive-planning-systems'
-          ]
-        },
-        {
-          type: 'category',
-          label: 'Part IV: Advanced Applications',
-          collapsed: false,
-          items: [
-            'chapter-10/voice-language-integration',
-            'chapter-11/real-world-applications',
-            'chapter-12/capstone-project'
+            'chapter-8/computer-vision-navigation'
           ]
         }
       ]

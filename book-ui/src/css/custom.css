@@ -1,37 +1,89 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap");
 
 :root {
+    /* --- NEW COLOR PALETTE: Cyber Robotics --- */
     --ifm-font-family-base: "Inter", sans-serif;
-    --ifm-color-primary: #25c2a0;
+    --ifm-font-family-monospace: "JetBrains Mono", monospace;
 
-    /* Shared Vars */
-    --bg-dark: #050a14;
-    --card-bg-dark: #0f1623;
+    /* Primary: Electric Cyan/Blue */
+    --ifm-color-primary: #00f2ea;
+    --ifm-color-primary-dark: #00d8d0;
+    --ifm-color-primary-darker: #00bkb6;
+    --ifm-color-primary-darkest: #009c98;
+    --ifm-color-primary-light: #2afaff;
+    --ifm-color-primary-lighter: #4dfbff;
+    --ifm-color-primary-lightest: #80fdff;
+
+    /* Secondary Colors */
+    --color-secondary: #7000ff; /* Deep Neon Purple */
+    --color-accent: #ff0055; /* Subtle Red for warnings */
+
+    /* Backgrounds */
+    --bg-dark-depth: #030014; /* Deep Space Black */
+    --bg-card-dark: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 /* =========================================
-   1. BACKGROUND ANIMATIONS
+   1. BACKGROUND ANIMATIONS (The Magic)
    ========================================= */
+
 body {
     min-height: 100vh;
-    transition: background 0.3s ease;
+    font-family: var(--ifm-font-family-base);
+    transition: background 0.5s ease;
     overflow-x: hidden;
 }
 
-/* --- DARK MODE: Aurora (UNTOUCHED) --- */
+/* --- DARK MODE: Moving Cyber Gradient --- */
 [data-theme="dark"] {
-    background: linear-gradient(-45deg, #02040a, #0b1221, #081c19, #02040a);
+    background: linear-gradient(-45deg, #030014, #100b2e, #0f172a, #000000);
     background-size: 400% 400%;
-    background-attachment: fixed;
     animation: gradientBG 15s ease infinite;
-
-    --ifm-background-color: transparent;
-    --ifm-font-color-base: #ffffff;
-    --ifm-heading-color: #ffffff;
-    --ifm-navbar-background-color: rgba(5, 10, 20, 0.7);
-    --ifm-footer-background-color: transparent;
+    --ifm-background-color: transparent; /* Makes body bg visible */
 }
 
+/* Background Tech Grid Overlay */
+[data-theme="dark"]::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 242, 234, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 242, 234, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Glowing Orbs Animation */
+[data-theme="dark"]::after {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(
+        circle,
+        rgba(112, 0, 255, 0.15),
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    animation: pulseGlow 8s ease-in-out infinite alternate;
+}
+
+/* --- LIGHT MODE: Clean Tech --- */
+[data-theme="light"] {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    --ifm-background-color: transparent;
+}
+
+/* Background Animation Keyframes */
 @keyframes gradientBG {
     0% {
         background-position: 0% 50%;
@@ -44,375 +96,215 @@ body {
     }
 }
 
-/* --- LIGHT MODE: Floating Mesh --- */
-[data-theme="light"] {
-    background-color: #ffffff;
-    background-image:
-        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 0) 0, transparent 50%),
-        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0) 0, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0) 0, transparent 50%);
-    background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-    position: relative;
-
-    --ifm-background-color: #ffffff;
-    --ifm-font-color-base: #000000;
-    --ifm-heading-color: #000000;
-    --ifm-navbar-background-color: #000000; /* Solid Black Header */
-    --ifm-navbar-link-color: #ffffff;
-}
-
-/* Moving overlay for Light Mode */
-[data-theme="light"]::before {
-    content: "";
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background:
-        radial-gradient(circle, rgba(37, 194, 160, 0.1), transparent 40%),
-        radial-gradient(circle, rgba(79, 172, 254, 0.1), transparent 40%);
-    background-size:
-        50% 50%,
-        50% 50%;
-    background-position:
-        0 0,
-        100% 100%;
-    animation: lightMove 15s linear infinite;
-    z-index: -1;
-    pointer-events: none;
-}
-@keyframes lightMove {
+@keyframes pulseGlow {
     0% {
-        transform: rotate(0deg);
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.5;
     }
     100% {
-        transform: rotate(360deg);
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
     }
 }
 
 /* =========================================
-   2. TEXT & HEADINGS
+   2. TYPOGRAPHY & HEADINGS
    ========================================= */
-[data-theme="light"] h1,
-[data-theme="light"] h2,
-[data-theme="light"] h3,
-[data-theme="light"] p,
-[data-theme="light"] span {
-    color: #000000 !important;
-    opacity: 1 !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700 !important;
+    letter-spacing: -0.02em;
 }
 
-/* Light Mode Heading Glow Animation */
-[data-theme="light"] h1.hero__title span {
-    background: none !important;
-    -webkit-text-fill-color: #000000 !important;
-    color: #000000 !important;
-    animation: glowShadow 3s ease-in-out infinite alternate;
+/* Glowing Text for Main Headings in Dark Mode */
+[data-theme="dark"] h1 {
+    background: linear-gradient(to right, #00f2ea, #7000ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0, 242, 234, 0.3);
 }
-@keyframes glowShadow {
-    from {
-        text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-    }
-    to {
-        text-shadow: 4px 4px 20px rgba(37, 194, 160, 0.6);
-    }
+
+.markdown code {
+    font-family: var(--ifm-font-family-monospace) !important;
+    border-radius: 6px;
+    padding: 0.2rem 0.4rem;
+}
+
+[data-theme="dark"] .markdown code {
+    background: rgba(0, 242, 234, 0.1);
+    color: #00f2ea;
+    border: 1px solid rgba(0, 242, 234, 0.2);
 }
 
 /* =========================================
-   3. NEON BUTTONS (Dark & Light)
+   3. GLASSMORPHISM CARDS
    ========================================= */
-.neon-button {
-    position: relative;
-    display: inline-block;
-    padding: 2px;
-    border-radius: 30px;
-    overflow: hidden;
-    text-decoration: none !important;
-    z-index: 1;
-    margin: 0.5rem;
+.card,
+.gradient-card {
+    border-radius: 16px !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark Mode Button */
-[data-theme="dark"] .neon-button::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(transparent, #25c2a0, transparent 60%);
-    animation: rotate 3s linear infinite;
-    display: block;
-    z-index: -2;
-}
-[data-theme="dark"] .neon-button span {
-    display: block;
-    padding: 1rem 2.5rem;
-    background: rgba(37, 194, 160, 0.1);
-    color: #fff;
-    border-radius: 28px;
-    backdrop-filter: blur(5px);
+[data-theme="dark"] .card {
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.01) 100%
+    ) !important;
 }
 
-/* --- LIGHT MODE BUTTON (SOLID) --- */
-[data-theme="light"] .neon-button::before {
-    display: block; /* Hide spinning border in light mode */
-}
-[data-theme="light"] .neon-button::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(transparent, #25c2a0, transparent 60%);
-    animation: rotate 3s linear infinite; /* SPINNING IS BACK */
-    z-index: -2;
-    display: block;
-}
-[data-theme="light"] .neon-button span {
-    display: block;
-    padding: 1rem 2.5rem;
-    background: rgba(37, 194, 160, 0.1); /* Inner dark bg */
-    color: #25c2a0;
-    border-radius: 28px;
-    backdrop-filter: blur(5px);
-    border: 2px solid black;
-    z-index: 2;
+/* ✅ DARK MODE CARD TEXT LIGHT */
+[data-theme="dark"] .card,
+[data-theme="dark"] .card p,
+[data-theme="dark"] .card span,
+[data-theme="dark"] .card h3,
+[data-theme="dark"] .card h4 {
+    color: #f5fbff !important;
 }
 
-[data-theme="light"] .neon-button:hover span {
-    background: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+.card:hover {
+    transform: translateY(-10px) !important;
+    box-shadow: 0 20px 40px rgba(0, 242, 234, 0.15) !important;
+    border-color: rgba(0, 242, 234, 0.5) !important;
 }
 
 /* =========================================
-   4. CARDS ANIMATION (ROTATING BOTH THEMES)
-   ========================================= */
-.neon-border-box {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    z-index: 1;
-    transition: transform 0.3s ease;
-    height: 100%;
-}
-
-/* --- SHARED ROTATION ANIMATION --- */
-.neon-border-box::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    animation: rotate 4s linear infinite;
-    z-index: -2;
-    display: block; /* Ensure it shows in both modes */
-}
-
-/* DARK MODE COLORS (Green Neon) */
-[data-theme="dark"] .neon-border-box::before {
-    background: conic-gradient(transparent, transparent, transparent, #25c2a0);
-}
-/* Inner Card Dark */
-[data-theme="dark"] .neon-border-box::after {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    background: var(--card-bg-dark);
-    border-radius: 10px;
-    z-index: -1;
-}
-
-/* LIGHT MODE COLORS (Blue/Teal Gradient - VISIBLE ON WHITE) */
-[data-theme="light"] .neon-border-box::before {
-    /* Using Blue & Green to stand out on white */
-    background: conic-gradient(
-        transparent,
-        transparent,
-        transparent,
-        #0ea5e9,
-        #25c2a0
-    );
-}
-/* Inner Card White */
-[data-theme="light"] .neon-border-box::after {
-    content: "";
-    position: absolute;
-    inset: 2px; /* Border thickness */
-    background: #ffffff; /* White center */
-    border-radius: 10px;
-    z-index: -1;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
-}
-
-/* Hover Speed Up */
-.neon-border-box:hover::before {
-    animation-duration: 2s;
-}
-.neon-border-box:hover {
-    transform: translateY(-5px);
-}
-
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* Content Padding */
-.feature-card-content {
-    padding: 2rem;
-    text-align: center;
-    height: 100%;
-}
-[data-theme="light"] .feature-card-content p {
-    color: #475569;
-}
-
-/* =========================================
-   5. HEADER & FOOTER & TOGGLE FIX
+   4. NAVBAR & FOOTER
    ========================================= */
 .navbar {
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid;
+    background: rgba(3, 0, 20, 0.7) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: none !important;
 }
 
-/* Light Mode Header = Dark Black */
-[data-theme="light"] .navbar {
-    background-color: #000000 !important;
-    color: #fdfbfb;
-    border-bottom: 1px solid #333;
-}
-[data-theme="light"] .navbar__title,
-[data-theme="light"] .navbar__link {
-    color: #fff !important;
+.navbar__link:hover,
+.navbar__brand:hover {
+    color: #00f2ea !important;
+    text-shadow: 0 0 10px rgba(0, 242, 234, 0.5);
 }
 
-/* --- TOGGLE BUTTON FIX --- */
-/* Since Header is Black in Light Mode, Icon must be White */
-[data-theme="light"] .navbar .clean-btn svg {
-    fill: #ffffff !important;
-}
-[data-theme="dark"] .navbar .clean-btn svg {
-    fill: #ffffff !important;
+/* ✅ LIGHT MODE NAVBAR LINK COLOR FIX */
+[data-theme="light"] .navbar__link,
+[data-theme="light"] .navbar__brand {
+    color: #ffffff !important;
 }
 
-/* Footer */
-[data-theme="light"] .footer {
-    background-color: #000000;
-    color: #fff;
+/* ✅ If light theme but dark header */
+[data-theme="light"] .navbar--dark .navbar__link,
+[data-theme="light"] .navbar--dark .navbar__brand {
+    color: #ffffff !important;
 }
 
-/* Professional Footer Styling */
 .footer {
-    background: linear-gradient(135deg, #0f1623 0%, #1a2a3a 100%);
-    padding: 4rem 0 2rem 0;
-    border-top: 1px solid rgba(37, 194, 160, 0.2);
+    background: #02000f !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.footer__title {
+/* =========================================
+   5. BUTTONS (Neon Style)
+   ========================================= */
+.button--primary {
+    background: transparent !important;
+    color: #00f2ea !important;
+    border: 1px solid #00f2ea !important;
+    box-shadow: 0 0 10px rgba(0, 242, 234, 0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.3s ease;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 1.1rem;
-    color: #25c2a0;
-    margin-bottom: 1.5rem;
-    position: relative;
 }
 
-.footer__title::after {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 2px;
-    background: #25c2a0;
-    margin-top: 0.5rem;
-    border-radius: 2px;
-}
-
-.footer__link-item {
-    color: #cbd5e1;
-    transition: all 0.3s ease;
-    display: block;
-    margin-bottom: 0.7rem;
-    position: relative;
-    padding-left: 0.8rem;
-}
-
-.footer__link-item::before {
-    content: '•';
+.button--primary::before {
+    content: "";
     position: absolute;
+    top: 0;
     left: 0;
-    color: #25c2a0;
-    opacity: 0.7;
+    width: 0%;
+    height: 100%;
+    background: #00f2ea;
+    z-index: -1;
+    transition: width 0.3s ease;
 }
 
-.footer__link-item:hover {
-    color: #25c2a0;
-    transform: translateX(3px);
-    text-shadow: 0 0 5px rgba(37, 194, 160, 0.5);
+.button--primary:hover {
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(0, 242, 234, 0.6);
 }
 
-.footer__bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 2rem;
-    margin-top: 3rem;
-    text-align: center;
+.button--primary:hover::before {
+    width: 100%;
 }
 
-.footer__copyright {
-    color: #a0aec0;
-    font-size: 0.9rem;
+/* =========================================
+   6. SIDEBAR & MENU
+   ========================================= */
+.menu__link {
+    border-radius: 8px;
+    transition: all 0.2s ease;
 }
 
-/* Footer Logo */
-.footer__logo {
-    max-height: 40px;
-    margin-bottom: 1rem;
+.menu__link--active {
+    background: linear-gradient(90deg, rgba(0, 242, 234, 0.1), transparent);
+    color: #00f2ea !important;
+    border-left: 3px solid #00f2ea;
 }
 
-/* Social Links in Footer */
-.footer__socials {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    margin: 1.5rem 0;
+.menu__link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #00f2ea !important;
+    transform: translateX(5px);
 }
 
-.footer__social-link {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(37, 194, 160, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #25c2a0;
-    transition: all 0.3s ease;
-    text-decoration: none;
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #030014;
+}
+::-webkit-scrollbar-thumb {
+    background: #1e1b4b;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #00f2ea;
 }
 
-.footer__social-link:hover {
-    background: #25c2a0;
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(37, 194, 160, 0.4);
+/* =========================================
+   7. CHATBOT FLOATING BUTTON
+   ========================================= */
+.chatbot-button {
+    background: linear-gradient(135deg, #00f2ea, #7000ff) !important;
+    box-shadow: 0 0 20px rgba(0, 242, 234, 0.4) !important;
+    animation: float 3s ease-in-out infinite;
 }
 
-/* Dark Mode Specific Footer Enhancements */
-[data-theme="dark"] .footer {
-    background: linear-gradient(135deg, #0a0f1a 0%, #0f1623 100%);
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
 
-[data-theme="dark"] .footer__link-item {
-    color: #a0aec0;
-}
-
-[data-theme="dark"] .footer__copyright {
-    color: #718096;
+/* =========================================
+   8. HOMEPAGE DESCRIPTION LIGHTER (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .homepage-description {
+    color: #e0f9ff !important;
 }

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import ChatWidget from "../components/ChatWidget";
+import ChatWidget from "../components/ChatbotComponent";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import styles from "./index.module.css";
@@ -29,7 +29,7 @@ function HomepageHeader() {
           width: "80%",
           height: "80%",
           background:
-            "radial-gradient(circle, rgba(37,194,160,0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(94,66,166,0.08) 0%, transparent 70%)",
           zIndex: 0,
           pointerEvents: "none",
         }}
@@ -51,12 +51,12 @@ function HomepageHeader() {
         <Heading as="h1" className="hero__title">
           <span
             style={{
-              background: "linear-gradient(to right, #fff, #25c2a0)",
+              background: "linear-gradient(to right, #00f2ea, #7000ff)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               fontSize: "5rem" /* Increased Size */,
               fontWeight: 800,
-              filter: "drop-shadow(0 0 25px rgba(37,194,160,0.4))",
+              filter: "drop-shadow(0 0 15px rgba(247, 137, 133, 0.3))",
               lineHeight: 1.1,
             }}
           >
@@ -70,7 +70,7 @@ function HomepageHeader() {
           style={{
             fontSize: "2rem",
             marginTop: "0.5rem",
-            color: "#25c2a0",
+            color: "#5e42a6",
             fontWeight: "600",
             letterSpacing: "1px",
           }}
@@ -84,7 +84,8 @@ function HomepageHeader() {
             maxWidth: "800px" /* Width limit taake text fail na jaye */,
             fontSize: "1.2rem",
             lineHeight: "1.6",
-            color: "#cbd5e1" /* Soft White/Grey */,
+            color:
+              "#8d97a8" /* Changed from light color to dark for light mode */,
             marginTop: "1.5rem",
             marginBottom: "3rem",
           }}
@@ -109,7 +110,7 @@ function HomepageHeader() {
           }}
         >
           {/* Animated Neon Button 1 */}
-          <Link to="/docs/Deep Intro" className="neon-button">
+          <Link to="/docs" className="neon-button">
             <span>Start Reading 📘</span>
           </Link>
 
@@ -148,8 +149,8 @@ export default function Home(): JSX.Element {
                   <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>
                     📘
                   </div>
-                  <h3 style={{ color: "#25c2a0" }}>Spec-Driven</h3>
-                  <p style={{ color: "#cbd5e1" }}>
+                  <h3 style={{ color: "#5e42a6" }}>Spec-Driven</h3>
+                  <p style={{ color: "#8d97a8" }}>
                     Architecture defined by clear specifications. The system is
                     built ensuring robust standards before a single line of code
                     is written.
@@ -165,8 +166,8 @@ export default function Home(): JSX.Element {
                   <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>
                     🤖
                   </div>
-                  <h3 style={{ color: "#25c2a0" }}>AI-Generated</h3>
-                  <p style={{ color: "#cbd5e1" }}>
+                  <h3 style={{ color: "#e45aad" }}>AI-Generated</h3>
+                  <p style={{ color: "#8d97a8" }}>
                     Content curated and written by advanced LLMs using prompt
                     engineering to ensure high-quality technical documentation.
                   </p>
@@ -181,8 +182,8 @@ export default function Home(): JSX.Element {
                   <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>
                     🧠
                   </div>
-                  <h3 style={{ color: "#25c2a0" }}>RAG Chatbot</h3>
-                  <p style={{ color: "#cbd5e1" }}>
+                  <h3 style={{ color: "#723da8" }}>RAG Chatbot</h3>
+                  <p style={{ color: "#8d97a8" }}>
                     Embedded intelligent agent. Ask questions directly from the
                     book content and get context-aware answers instantly.
                   </p>
