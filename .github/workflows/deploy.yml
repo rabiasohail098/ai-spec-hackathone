@@ -8,20 +8,20 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: book-ui
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: npm
+          cache: 'npm'
+          cache-dependency-path: 'book-ui/package-lock.json'
       - name: Install dependencies
-        run: |
-          cd book-ui
-          npm ci
+        run: npm ci
       - name: Build website
-        run: |
-          cd book-ui
-          npm run build
+        run: npm run build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
