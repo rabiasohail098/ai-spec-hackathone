@@ -13,15 +13,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
+          cache: npm
       - name: Install dependencies
         run: |
           cd book-ui
-          yarn install --frozen-lockfile
+          npm ci
       - name: Build website
         run: |
           cd book-ui
-          yarn build
+          npm run build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
