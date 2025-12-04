@@ -52,7 +52,13 @@ const ChapterControls: React.FC<ChapterControlsProps> = ({ chapterId, title }) =
       }
 
       // Call the backend API to personalize the content
-      const response = await fetch('http://localhost:8000/api/v1/personalize-content', {
+      const API_BASE_URL = typeof window !== 'undefined'
+        ? (window as any).env?.REACT_APP_API_URL ||
+          (process.env.NODE_ENV === 'production'
+            ? `${window.location.origin}/api/v1` // For GitHub Pages deployment
+            : 'http://localhost:8000/api/v1') // For local development
+        : 'http://localhost:8000/api/v1';
+      const response = await fetch(`${API_BASE_URL}/personalize-content`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +143,13 @@ const ChapterControls: React.FC<ChapterControlsProps> = ({ chapterId, title }) =
 
     try {
       // Call the backend API to translate the content
-      const response = await fetch('http://localhost:8000/api/v1/translate-to-urdu', {
+      const API_BASE_URL = typeof window !== 'undefined'
+        ? (window as any).env?.REACT_APP_API_URL ||
+          (process.env.NODE_ENV === 'production'
+            ? `${window.location.origin}/api/v1` // For GitHub Pages deployment
+            : 'http://localhost:8000/api/v1') // For local development
+        : 'http://localhost:8000/api/v1';
+      const response = await fetch(`${API_BASE_URL}/translate-to-urdu`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

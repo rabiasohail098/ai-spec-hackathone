@@ -21,7 +21,12 @@ const getApiBaseUrl = (): string => {
     return `${window.location.protocol}//${hostname}${portString}`;
   }
   // Fallback for SSR
-  return "http://localhost:8000";
+  return typeof window !== 'undefined'
+    ? (window as any).env?.REACT_APP_API_URL ||
+      (process.env.NODE_ENV === 'production'
+        ? `${window.location.origin}` // For GitHub Pages deployment
+        : 'http://localhost:8000') // For local development
+    : 'http://localhost:8000';
 };
 
 const API_BASE_URL = getApiBaseUrl();

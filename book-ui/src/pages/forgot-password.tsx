@@ -10,7 +10,12 @@ export default function ForgotPasswordPage() {
   const [error, setError] = useState<string | null>(null);
 
   // Backend API URL (Apne backend ka sahi port use karein)
-  const API_BASE_URL = "http://localhost:8000/api/v1";
+  const API_BASE_URL = typeof window !== 'undefined'
+    ? (window as any).env?.REACT_APP_API_URL ||
+      (process.env.NODE_ENV === 'production'
+        ? `${window.location.origin}/api/v1` // For GitHub Pages deployment
+        : 'http://localhost:8000/api/v1') // For local development
+    : 'http://localhost:8000/api/v1';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
