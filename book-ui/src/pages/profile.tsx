@@ -194,14 +194,14 @@ const ProfilePage = () => {
                 <div className="card__body">
                   <p>You must be logged in to view this page.</p>
                   <div style={{ marginTop: "20px" }}>
-                    <a
+                    <Link
+                      to="/signin"
                       className="button button--primary button--block"
-                      href="/signin"
                     >
                       Sign In
-                    </a>
+                    </Link>
                     <div style={{ textAlign: "center", marginTop: "10px" }}>
-                      or <a href="/signup">Create an Account</a>
+                      or <Link to="/signup">Create an Account</Link>
                     </div>
                   </div>
                 </div>
