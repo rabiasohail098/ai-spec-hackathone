@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "@docusaurus/router";
 import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
@@ -535,12 +536,19 @@ const ProfilePage = () => {
                     }}
                   >
                     <p>No reading progress recorded yet.</p>
-                    <a
-                      href="/ai-spec-hackathone/docs/intro"
+                    <Link
+                      to="/docs/chapter-1/introduction-to-physical-ai"
                       className="button button--primary button--sm"
+                      style={{marginRight: "10px"}}
                     >
                       Start Reading
-                    </a>
+                    </Link>
+                    <Link
+                      to="/"
+                      className="button button--secondary button--sm"
+                    >
+                      Go to Home
+                    </Link>
                   </div>
                 )}
               </div>
