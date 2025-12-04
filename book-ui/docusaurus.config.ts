@@ -134,7 +134,6 @@ const config: Config = {
     footer: {
       style: "dark",
       links: [
-        // ... (Footer links same rahenge)
         {
           title: "Book Resources",
           items: [
@@ -142,9 +141,83 @@ const config: Config = {
               label: "Physical AI Fundamentals",
               to: "/docs/chapter-1/introduction-to-physical-ai",
             },
+            {
+              label: "AI for Robotics",
+              to: "/docs/chapter-4/ai-robot-brain-isaac",
+            },
+            {
+              label: "Vision-Language-Action Systems",
+              to: "/docs/chapter-5/vision-language-action",
+            },
+            {
+              label: "Capstone Project",
+              to: "/docs/chapter-6/autonomous-humanoid-capstone",
+            },
           ],
         },
-        // ... (Add other footer items as needed)
+        {
+          title: "Quick Links",
+          items: [
+            {
+              label: "Home",
+              to: "/",
+            },
+            {
+              label: "About Physical AI",
+              to: "/docs/chapter-1/introduction-to-physical-ai",
+            },
+            {
+              label: "RAG Chatbot",
+              to: "/", // Chatbot is on homepage
+            },
+            {
+              label: "GitHub",
+              href: "https://github.com/rabiasohail098/ai-spec-hackathone",
+            },
+          ],
+        },
+        {
+          title: "Resources",
+          items: [
+            {
+              label: "Physical AI Community",
+              href: "https://panaversity.org",
+            },
+            {
+              label: "GitHub Repository",
+              href: "https://github.com/rabiasohail098/ai-spec-hackathone",
+            },
+            {
+              label: "Open Source Contributions",
+              href: "https://github.com/panaversity",
+            },
+            {
+              label: "Learn Physical AI",
+              href: "https://panaversity.org",
+            },
+          ],
+        },
+        {
+          title: "Connect",
+          items: [
+            {
+              label: "Twitter/X",
+              href: "https://x.com/rabiasohail1209",
+            },
+            {
+              label: "LinkedIn",
+              href: "https://www.linkedin.com/in/rabia-sohail-684740278/",
+            },
+            {
+              label: "Sign In",
+              to: "/signin",
+            },
+            {
+              label: "Sign Up",
+              to: "/signup",
+            },
+          ],
+        },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics Project. Built with Docusaurus.`,
     },
