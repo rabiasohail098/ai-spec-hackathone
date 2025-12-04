@@ -3,6 +3,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import { useHistory, useLocation } from '@docusaurus/router';
 import { useAuth } from '../contexts/AuthContext';
+import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 
 export default function SigninPage() {
   const [formData, setFormData] = useState({
