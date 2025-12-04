@@ -49,8 +49,12 @@ const ProfilePage = () => {
       const currentToken = token || hasLocalToken;
       if (!currentToken) return;
 
+      const API_BASE_URL = process.env.NODE_ENV === 'production'
+        ? `${window.location.origin}/api/v1`
+        : 'http://localhost:8000/api/v1';
+
       const response = await fetch(
-        "http://localhost:8000/api/v1/auth/reading-progress",
+        `${API_BASE_URL}/auth/reading-progress`,
         {
           headers: {
             Authorization: `Bearer ${currentToken}`,
