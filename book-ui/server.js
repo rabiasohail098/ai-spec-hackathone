@@ -7,7 +7,7 @@ const app = express();
 
 // Proxy API requests to the backend server
 app.use('/api', createProxyMiddleware({
-  target: 'http://localhost:8000',
+  target: process.env.BACKEND_URL || 'http://localhost:8000',
   changeOrigin: true,
   pathRewrite: {
     '^/api': '', // Remove /api prefix when forwarding
