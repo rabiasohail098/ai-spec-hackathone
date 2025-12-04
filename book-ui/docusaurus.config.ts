@@ -85,7 +85,7 @@ const config: Config = {
       contextSources: [
         {
           type: "book-content",
-          path: "/docs",
+          path: "/ai-spec-hackathone/docs",
           format: "mdx",
         },
       ],
