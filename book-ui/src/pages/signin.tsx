@@ -192,7 +192,7 @@ export default function SigninPage() {
 
           <div style={{ marginTop: "2rem", textAlign: "center" }}>
             <Link
-              to="/ai-spec-hackathone/forgot-password"
+              to="/forgot-password"
               style={{ color: "var(--ifm-color-primary)" }}
             >
               Forgot Password?
