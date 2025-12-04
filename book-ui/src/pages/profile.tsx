@@ -2,10 +2,19 @@ import React, { useState, useEffect } from "react";
 import Layout from "@theme/Layout";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "@docusaurus/router";
+import { useBaseUrlUtils } from "@docusaurus/useBaseUrl";
 
 const ProfilePage = () => {
-  const { user, isAuthenticated, logout, token, isInitialized, updateUserProfile } = useAuth();
+  const {
+    user,
+    isAuthenticated,
+    logout,
+    token,
+    isInitialized,
+    updateUserProfile,
+  } = useAuth();
   const history = useHistory();
+  const { withBaseUrl } = useBaseUrlUtils();
   const [readingProgress, setReadingProgress] = useState<any>({});
   const [dataLoading, setDataLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -49,19 +58,17 @@ const ProfilePage = () => {
       const currentToken = token || hasLocalToken;
       if (!currentToken) return;
 
-      const API_BASE_URL = process.env.NODE_ENV === 'production'
-        ? `${window.location.origin}/api/v1`
-        : 'http://localhost:8000/api/v1';
+      const API_BASE_URL =
+        process.env.NODE_ENV === "production"
+          ? `${window.location.origin}/api/v1`
+          : "http://localhost:8000/api/v1";
 
-      const response = await fetch(
-        `${API_BASE_URL}/auth/reading-progress`,
-        {
-          headers: {
-            Authorization: `Bearer ${currentToken}`,
-            "Content-Type": "application/json",
-          },
+      const response = await fetch(`${API_BASE_URL}/auth/reading-progress`, {
+        headers: {
+          Authorization: `Bearer ${currentToken}`,
+          "Content-Type": "application/json",
         },
-      );
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -76,7 +83,7 @@ const ProfilePage = () => {
 
   const handleLogout = () => {
     logout();
-    history.push("/");
+    history.push(withBaseUrl("/"));
   };
 
   const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +102,10 @@ const ProfilePage = () => {
     setEditSuccess(false);
 
     try {
-      const success = await updateUserProfile(editData.first_name, editData.last_name);
+      const success = await updateUserProfile(
+        editData.first_name,
+        editData.last_name,
+      );
 
       if (success) {
         setIsEditing(false);
@@ -107,7 +117,9 @@ const ProfilePage = () => {
     } catch (error) {
       console.error("Profile update error:", error);
       setEditError(
-        error instanceof Error ? error.message : "An error occurred while updating your profile"
+        error instanceof Error
+          ? error.message
+          : "An error occurred while updating your profile",
       );
     } finally {
       setEditLoading(false);
@@ -267,7 +279,11 @@ const ProfilePage = () => {
                     <div className="margin-bottom--md">
                       <label
                         htmlFor="first_name"
-                        style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+                        style={{
+                          display: "block",
+                          marginBottom: "5px",
+                          fontWeight: "bold",
+                        }}
                       >
                         First Name:
                       </label>
@@ -290,7 +306,11 @@ const ProfilePage = () => {
                     <div className="margin-bottom--md">
                       <label
                         htmlFor="last_name"
-                        style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+                        style={{
+                          display: "block",
+                          marginBottom: "5px",
+                          fontWeight: "bold",
+                        }}
                       >
                         Last Name:
                       </label>
@@ -349,13 +369,17 @@ const ProfilePage = () => {
                     <div className="row">
                       <div className="col col--6">
                         <div className="margin-bottom--md">
-                          <strong style={{ color: "#7e22ce" }}>First Name:</strong>
+                          <strong style={{ color: "#7e22ce" }}>
+                            First Name:
+                          </strong>
                           <div style={{ fontSize: "1.2em" }}>
                             {user?.first_name || "Not provided"}
                           </div>
                         </div>
                         <div className="margin-bottom--md">
-                          <strong style={{ color: "#7e22ce" }}>Last Name:</strong>
+                          <strong style={{ color: "#7e22ce" }}>
+                            Last Name:
+                          </strong>
                           <div style={{ fontSize: "1.2em" }}>
                             {user?.last_name || "Not provided"}
                           </div>
@@ -512,7 +536,7 @@ const ProfilePage = () => {
                   >
                     <p>No reading progress recorded yet.</p>
                     <a
-                      href="/docs/intro"
+                      href="/ai-spec-hackathone/docs/intro"
                       className="button button--primary button--sm"
                     >
                       Start Reading

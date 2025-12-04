@@ -21,6 +21,7 @@ export default function SignupPage() {
 
   const { register } = useAuth();
   const history = useHistory();
+  const { withBaseUrl } = useBaseUrlUtils();
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -56,7 +57,7 @@ export default function SignupPage() {
 
     if (success) {
       // After successful registration, navigate to the sign-in page
-      history.push("/signin", { registered: true });
+      history.push(withBaseUrl("/signin"), { registered: true });
     } else {
       setError("Registration failed. Please try again.");
     }

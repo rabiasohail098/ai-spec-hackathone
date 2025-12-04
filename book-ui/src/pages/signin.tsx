@@ -16,6 +16,7 @@ export default function SigninPage() {
   const { login, isAuthenticated, isInitialized } = useAuth();
   const history = useHistory();
   const location = useLocation();
+  const { withBaseUrl } = useBaseUrlUtils();
 
   // Check if user just registered
   const registered = location.state?.registered;
@@ -23,7 +24,7 @@ export default function SigninPage() {
   // If already authenticated, redirect to profile
   useEffect(() => {
     if (isInitialized && isAuthenticated) {
-      history.push("/profile");
+      history.push(withBaseUrl("/profile"));
     }
   }, [isInitialized, isAuthenticated]);
 
