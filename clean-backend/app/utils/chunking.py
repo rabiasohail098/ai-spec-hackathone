@@ -2,16 +2,19 @@
 Content chunking utilities for RAG system.
 
 This module provides functions to chunk markdown/MDX content into optimal sizes
-for embedding and retrieval. Uses tiktoken for accurate token counting.
+for embedding and retrieval. Uses OpenAI SDK for accurate token counting.
 """
 
 import re
 from typing import List, Dict, Any
-import tiktoken
+from openai import OpenAI
 from app.core.config import settings
 import logging
 
 logger = logging.getLogger(__name__)
+
+# Initialize OpenAI client for token counting
+openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 
 def count_tokens(text: str, model: str = "gpt-3.5-turbo") -> int:
@@ -26,11 +29,23 @@ def count_tokens(text: str, model: str = "gpt-3.5-turbo") -> int:
         int: Number of tokens in the text
     """
     try:
-        encoding = tiktoken.encoding_for_model(model)
-        return len(encoding.encode(text))
+        # Use OpenAI's API for token counting (newer versions)
+        response = openai_client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": text}],
+            max_tokens=1  # We just need the token count, not a completion
+        )
+
+        # Get token counts from the response
+        usage = response.usage
+        if usage:
+            return usage.prompt_tokens
+        else:
+            # Fallback: rough estimate (1 token ~ 4 characters)
+            return len(text) // 4
     except Exception as e:
         logger.error(f"Error counting tokens: {e}")
-        # Fallback: rough estimate (1 token H 4 characters)
+        # Fallback: rough estimate (1 token ~ 4 characters)
         return len(text) // 4
 
 
@@ -215,14 +230,10 @@ def get_last_n_tokens(text: str, n: int) -> str:
         Last N tokens as string
     """
     try:
-        encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
-        tokens = encoding.encode(text)
-
-        if len(tokens) <= n:
-            return text
-
-        last_tokens = tokens[-n:]
-        return encoding.decode(last_tokens)
+        # For simplicity, we'll return last n*4 characters as approximation
+        # Accurate implementation would require tokenization, but for overlap purposes
+        # this approximation is usually sufficient
+        return text[-(n * 4):]
     except Exception as e:
         logger.error(f"Error getting last tokens: {e}")
         # Fallback: return last ~n*4 characters
