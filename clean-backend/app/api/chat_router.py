@@ -14,6 +14,7 @@ from typing import List, Optional
 from datetime import datetime
 import logging
 import json
+import re
 
 from app.schemas.requests import ChatRequest, ChatResponse
 from app.core.rag import get_rag_service
@@ -77,9 +78,13 @@ async def chat_endpoint(request: ChatRequest, session: Session = Depends(get_ses
                 detail="Question cannot be empty"
             )
 
-        # Handle greetings first
+        # Handle greetings first - use word boundary matching to avoid false positives
+        # e.g., "hi" should not match "this" or "hierarchical"
         greeting_keywords = ["hello", "hi", "hey", "greetings", "good morning", "good afternoon", "good evening"]
-        is_greeting = any(keyword in sanitized_question.lower() for keyword in greeting_keywords)
+        question_lower = sanitized_question.lower()
+        is_greeting = any(re.search(r'\b' + re.escape(keyword) + r'\b', question_lower) for keyword in greeting_keywords)
+
+        logger.info(f"DEBUG: is_greeting={is_greeting}, query_first_50={sanitized_question[:50]}")
 
         if is_greeting:
             greeting_response = "Hello! 👋 I'm your AI assistant for Physical AI and Humanoid Robotics. I can help you with:\n\n" \
@@ -95,10 +100,20 @@ async def chat_endpoint(request: ChatRequest, session: Session = Depends(get_ses
                 conversation_id=request.conversation_id
             )
 
-        # T126: Try to route to specialized agents first based on the query
-        subagent_response = await subagent_orchestrator.process_query_with_agents(
-            sanitized_question
-        )
+        # T067: Detect intent from request or infer from question
+        intent = detect_intent(sanitized_question, sanitized_context)
+        logger.info(f"DEBUG: detected_intent={intent}")
+
+        # Skip subagent for summarize/explain/keypoints/mindmap intents - use RAG directly
+        skip_subagent_intents = ["summarize", "explain", "keypoints", "mindmap", "simplify", "brief", "elaborate"]
+
+        subagent_response = None
+        if intent not in skip_subagent_intents:
+            # T126: Try to route to specialized agents first based on the query
+            subagent_response = await subagent_orchestrator.process_query_with_agents(
+                sanitized_question
+            )
+            logger.info(f"DEBUG: subagent_response={subagent_response}, success={subagent_response.success if subagent_response else 'None'}")
 
         if subagent_response and subagent_response.success:
             logger.info(f"Subagent response generated: {subagent_response.result[:100]}...")
@@ -107,9 +122,6 @@ async def chat_endpoint(request: ChatRequest, session: Session = Depends(get_ses
                 sources=subagent_response.sources or [],
                 conversation_id=request.conversation_id
             )
-
-        # T067: Detect intent from request or infer from question
-        intent = detect_intent(sanitized_question, sanitized_context)
 
         # T068: Use context_text (selected text) if available
         selected_text = sanitized_context if sanitized_context else None

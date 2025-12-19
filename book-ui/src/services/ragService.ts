@@ -42,7 +42,7 @@ export interface ConversationHistory {
 }
 
 class RAGService {
-  private readonly CHAT_ENDPOINT = '/api/v1/chat';
+  private readonly CHAT_ENDPOINT = '/api/v1/chat/';
   private readonly CONVERSATIONS_ENDPOINT = '/api/v1/conversations';
   private readonly REQUEST_TIMEOUT = 30000; // 30 seconds
   private readonly MAX_RETRIES = 3;
@@ -56,32 +56,40 @@ class RAGService {
   async sendChatMessage(request: ChatRequest): Promise<ChatResponse> {
     let lastError: Error | null = null;
 
+    console.log('[RAGService] Sending chat message:', request);
+
     for (let attempt = 1; attempt <= this.MAX_RETRIES; attempt++) {
       try {
+        console.log(`[RAGService] Attempt ${attempt}/${this.MAX_RETRIES}`);
         const response = await this.sendWithTimeout<ChatResponse>(
           this.CHAT_ENDPOINT,
           request,
           this.REQUEST_TIMEOUT
         );
 
+        console.log('[RAGService] Success:', response);
         return response;
       } catch (error) {
         lastError = error as Error;
+        console.error(`[RAGService] Attempt ${attempt} failed:`, error);
 
         // Don't retry on client errors (4xx)
         if (this.isClientError(error)) {
+          console.error('[RAGService] Client error, not retrying');
           throw error;
         }
 
         // Wait before retrying (exponential backoff)
         if (attempt < this.MAX_RETRIES) {
           const delay = this.RETRY_DELAY * Math.pow(2, attempt - 1);
+          console.log(`[RAGService] Retrying in ${delay}ms...`);
           await this.sleep(delay);
         }
       }
     }
 
     // All retries failed
+    console.error('[RAGService] All retries failed');
     throw new Error(
       `Failed to send chat message after ${this.MAX_RETRIES} attempts: ${lastError?.message}`
     );

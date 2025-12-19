@@ -7,29 +7,32 @@
 
 // Use window.location for dynamic backend URL in browser environment
 const getApiBaseUrl = (): string => {
+  // Check for environment variable first (for production deployments)
+  if (typeof window !== 'undefined' && (window as any).env?.BACKEND_URL) {
+    return (window as any).env.BACKEND_URL;
+  }
+
   if (typeof window !== "undefined" && window.location) {
     const hostname = window.location.hostname;
-    // Agar localhost hai to port 8000 use karein, warna production URL
-    const port =
-      hostname === "localhost" || hostname === "127.0.0.1"
-        ? "8000"
-        : window.location.port;
 
-    // Agar production me port empty hai (standard 80/443)
-    const portString = port ? `:${port}` : "";
+    // For localhost development, always use localhost:8001
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return "http://localhost:8001";
+    }
 
-    return `${window.location.protocol}//${hostname}${portString}`;
+    // For production, you should set BACKEND_URL in .env
+    // Fallback to same origin if not set
+    return `${window.location.protocol}//${hostname}`;
   }
+
   // Fallback for SSR
-  return typeof window !== 'undefined'
-    ? (window as any).env?.REACT_APP_API_URL ||
-      (process.env.NODE_ENV === 'production'
-        ? `${window.location.origin}` // For GitHub Pages deployment
-        : 'http://localhost:8000') // For local development
-    : 'http://localhost:8000';
+  return 'http://localhost:8001';
 };
 
 const API_BASE_URL = getApiBaseUrl();
+
+// Log the API base URL for debugging
+console.log('[API Client] Using backend URL:', API_BASE_URL);
 
 interface ApiError {
   message: string;
@@ -46,7 +49,8 @@ class ApiClient {
 
   private getAuthToken(): string | null {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("authToken");
+      // Check for both 'token' and 'authToken' for compatibility
+      return localStorage.getItem("token") || localStorage.getItem("authToken");
     }
     return null;
   }
