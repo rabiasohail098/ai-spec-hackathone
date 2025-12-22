@@ -7,7 +7,7 @@ const app = express();
 
 // Proxy API requests to the backend server
 app.use('/api', createProxyMiddleware({
-  target: process.env.BACKEND_URL || 'http://localhost:8000',
+  target: process.env.BACKEND_URL || 'https://rabiasohail098-robotics-backend.hf.space',
   changeOrigin: true,
   pathRewrite: {
     '^/api': '', // Remove /api prefix when forwarding
@@ -25,5 +25,5 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`Proxying API requests to http://localhost:8000`);
+  console.log(`Proxying API requests to https://rabiasohail098-robotics-backend.hf.space`);
 });

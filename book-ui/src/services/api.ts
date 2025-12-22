@@ -5,6 +5,9 @@
  * Handles authentication, error handling, and request/response formatting.
  */
 
+// Production backend URL (Hugging Face Spaces)
+const PRODUCTION_BACKEND_URL = 'https://rabiasohail098-robotics-backend.hf.space';
+
 // Use window.location for dynamic backend URL in browser environment
 const getApiBaseUrl = (): string => {
   // Check for environment variable first (for production deployments)
@@ -15,18 +18,17 @@ const getApiBaseUrl = (): string => {
   if (typeof window !== "undefined" && window.location) {
     const hostname = window.location.hostname;
 
-    // For localhost development, always use localhost:8001
+    // For localhost development, use localhost:8002
     if (hostname === "localhost" || hostname === "127.0.0.1") {
-      return "http://localhost:8001";
+      return "http://localhost:8002";
     }
 
-    // For production, you should set BACKEND_URL in .env
-    // Fallback to same origin if not set
-    return `${window.location.protocol}//${hostname}`;
+    // For production (GitHub Pages or any other domain), use Render backend
+    return PRODUCTION_BACKEND_URL;
   }
 
   // Fallback for SSR
-  return 'http://localhost:8001';
+  return 'http://localhost:8002';
 };
 
 const API_BASE_URL = getApiBaseUrl();

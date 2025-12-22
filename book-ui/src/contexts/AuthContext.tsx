@@ -34,13 +34,16 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+// Production backend URL (Hugging Face Spaces)
+const PRODUCTION_BACKEND_URL = 'https://rabiasohail098-robotics-backend.hf.space';
+
 // API base URL
 const API_BASE_URL = typeof window !== 'undefined'
   ? (window as any).env?.REACT_APP_API_URL ||
-    (process.env.NODE_ENV === 'production'
-      ? `${window.location.origin}/api/v1` // For GitHub Pages deployment
-      : 'http://localhost:8000/api/v1') // For local development
-  : 'http://localhost:8000/api/v1';
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:8002/api/v1' // For local development
+      : `${PRODUCTION_BACKEND_URL}/api/v1`) // For production (GitHub Pages)
+  : 'http://localhost:8002/api/v1';
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);

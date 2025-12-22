@@ -52,12 +52,13 @@ const ChapterControls: React.FC<ChapterControlsProps> = ({ chapterId, title }) =
       }
 
       // Call the backend API to personalize the content
+      const PRODUCTION_URL = 'https://rabiasohail098-robotics-backend.hf.space';
       const API_BASE_URL = typeof window !== 'undefined'
         ? (window as any).env?.REACT_APP_API_URL ||
-          (process.env.NODE_ENV === 'production'
-            ? `${window.location.origin}/api/v1` // For GitHub Pages deployment
-            : 'http://localhost:8000/api/v1') // For local development
-        : 'http://localhost:8000/api/v1';
+          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:8002/api/v1' // For local development
+            : `${PRODUCTION_URL}/api/v1`) // For production
+        : 'http://localhost:8002/api/v1';
       const response = await fetch(`${API_BASE_URL}/personalize-content`, {
         method: 'POST',
         headers: {
@@ -143,12 +144,13 @@ const ChapterControls: React.FC<ChapterControlsProps> = ({ chapterId, title }) =
 
     try {
       // Call the backend API to translate the content
+      const PRODUCTION_URL = 'https://rabiasohail098-robotics-backend.hf.space';
       const API_BASE_URL = typeof window !== 'undefined'
         ? (window as any).env?.REACT_APP_API_URL ||
-          (process.env.NODE_ENV === 'production'
-            ? `${window.location.origin}/api/v1` // For GitHub Pages deployment
-            : 'http://localhost:8000/api/v1') // For local development
-        : 'http://localhost:8000/api/v1';
+          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:8002/api/v1' // For local development
+            : `${PRODUCTION_URL}/api/v1`) // For production
+        : 'http://localhost:8002/api/v1';
       const response = await fetch(`${API_BASE_URL}/translate-to-urdu`, {
         method: 'POST',
         headers: {

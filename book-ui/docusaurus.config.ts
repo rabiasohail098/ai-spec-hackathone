@@ -72,15 +72,15 @@ const config: Config = {
 
   themeConfig: {
     // --- IMPORTANT NOTE FOR BACKEND ---
-    // GitHub Pages par 'localhost:8000' kaam nahi karega.
-    // Aapko apna Python Backend (FastAPI) kahin cloud pe deploy karna padega (jaise Render, Railway, AWS).
-    // Filhal build hone ke liye hum ise aise hi rehne dete hain, par Live site par Chatbot/Login nahi chalega.
+    // GitHub Pages par direct backend communication nahi ho sakti.
+    // Humara Python Backend (FastAPI) Hugging Face Spaces pe deploy kiya gaya hai.
+    // Ab live site par bhi Chatbot/Login kaam karega.
     mcp: {
       serverUrl:
         process.env.MCP_SERVER_URL ||
         (process.env.NODE_ENV === "production"
-          ? `${window.location.origin}` // For GitHub Pages deployment
-          : "http://localhost:8000"),
+          ? "https://rabiasohail098.github.io/ai-spec-hackathone" // For GitHub Pages deployment
+          : "https://rabiasohail098-robotics-backend.hf.space"),
       apiKey: process.env.MCP_API_KEY,
       contextSources: [
         {
@@ -139,19 +139,19 @@ const config: Config = {
           items: [
             {
               label: "Physical AI Fundamentals",
-              to: "/docs/chapter-1/introduction-to-physical-ai",
+              to: "/docs/module-1/introduction-to-physical-ai",
             },
             {
               label: "AI for Robotics",
-              to: "/docs/chapter-4/ai-robot-brain-isaac",
+              to: "/docs/module-2/ai-robot-brain-isaac",
             },
             {
               label: "Vision-Language-Action Systems",
-              to: "/docs/chapter-5/vision-language-action",
+              to: "/docs/module-3/vision-language-action",
             },
             {
               label: "Capstone Project",
-              to: "/docs/chapter-6/autonomous-humanoid-capstone",
+              to: "/docs/module-3/autonomous-humanoid-capstone",
             },
           ],
         },
@@ -164,7 +164,7 @@ const config: Config = {
             },
             {
               label: "About Physical AI",
-              to: "/docs/chapter-1/introduction-to-physical-ai",
+              to: "/docs/module-1/introduction-to-physical-ai",
             },
             {
               label: "RAG Chatbot",
