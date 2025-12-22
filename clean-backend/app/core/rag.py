@@ -17,8 +17,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Initialize OpenAI client
-client = OpenAI(api_key=settings.OPENAI_API_KEY)
+# Initialize OpenRouter client (using OpenAI SDK with custom base_url)
+client = OpenAI(
+    api_key=settings.OPENROUTER_API_KEY,
+    base_url=settings.OPENROUTER_BASE_URL
+)
 
 
 class RAGService:
@@ -306,10 +309,10 @@ Please provide a helpful, accurate answer. If the answer is in the provided book
             # Add current query
             messages.append({"role": "user", "content": prompt})
 
-            # Step 4: Generate response (T045)
-            logger.info("Generating response with LLM...")
+            # Step 4: Generate response (T045) using OpenRouter
+            logger.info("Generating response with OpenRouter LLM...")
             response = client.chat.completions.create(
-                model=settings.LLM_MODEL,
+                model=settings.OPENROUTER_MODEL,
                 messages=messages,
                 temperature=0.7,
                 max_tokens=800

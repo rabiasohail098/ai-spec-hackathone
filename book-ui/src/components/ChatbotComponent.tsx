@@ -259,11 +259,13 @@ const ChatbotComponent: React.FC<ChatbotComponentProps> = ({
   const processRAG = async (question: string, context: string) => {
     setIsLoading(true);
     try {
+      console.log('[ChatbotComponent] Calling ragService with:', { question, context });
       const response = await ragService.sendChatMessage({
         question: question,
         context_text: context || null,
       });
 
+      console.log('[ChatbotComponent] Got response:', response);
       addMessage({
         role: "assistant",
         content: response.answer,
@@ -271,10 +273,10 @@ const ChatbotComponent: React.FC<ChatbotComponentProps> = ({
         sources: response.sources,
       });
     } catch (error: any) {
-      console.error("RAG Error:", error);
+      console.error("[ChatbotComponent] RAG Error:", error);
       addMessage({
         role: "assistant",
-        content: "Error connecting to AI service.",
+        content: `Error: ${error?.message || 'Failed to connect to AI service. Please try again.'}`,
         timestamp: new Date(),
       });
     } finally {

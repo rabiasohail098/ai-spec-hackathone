@@ -18,8 +18,11 @@ import time
 
 logger = logging.getLogger(__name__)
 
-# Initialize OpenAI client
-client = OpenAI(api_key=settings.OPENAI_API_KEY)
+# Initialize OpenRouter client (using OpenAI SDK with custom base_url)
+client = OpenAI(
+    api_key=settings.OPENROUTER_API_KEY,
+    base_url=settings.OPENROUTER_BASE_URL
+)
 
 # Supported languages
 SUPPORTED_LANGUAGES = {
@@ -43,7 +46,7 @@ class TranslationService:
 
     def __init__(self):
         """Initialize translation service."""
-        self.model = settings.LLM_MODEL  # Use same model as chat
+        self.model = settings.OPENROUTER_MODEL  # Use OpenRouter model
         self.max_chunk_size = 2000  # Characters per chunk
 
     def translate_text(

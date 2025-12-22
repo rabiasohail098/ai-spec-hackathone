@@ -1,3 +1,13 @@
+---
+title: Physical AI Robotics Backend
+emoji: 🤖
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+license: mit
+---
+
 # Physical AI & Humanoid Robotics RAG Chatbot - Backend
 
 This is the backend service for the interactive robotics book with integrated RAG chatbot.

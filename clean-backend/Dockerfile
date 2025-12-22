@@ -1,4 +1,4 @@
-# Use Python 3.11 slim image as the base
+# Hugging Face Spaces - FastAPI Backend
 FROM python:3.11-slim
 
 # Set environment variables
@@ -12,9 +12,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        postgresql-client \
         build-essential \
-        libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -25,13 +23,13 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy project
 COPY . /app/
 
-# Create non-root user
-RUN adduser --disabled-password --gecos '' appuser
-RUN chown -R appuser:appuser /app
-USER appuser
+# Create non-root user (required by Hugging Face)
+RUN useradd -m -u 1000 user
+RUN chown -R user:user /app
+USER user
 
-# Expose port
-EXPOSE 8000
+# Hugging Face uses port 7860
+EXPOSE 7860
 
-# Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the application on port 7860
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]

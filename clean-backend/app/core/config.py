@@ -17,10 +17,15 @@ class Settings(BaseSettings):
     QDRANT_API_KEY: Optional[str] = None  # Made optional for local instance
     QDRANT_URL: Optional[str] = "http://localhost:6333"  # Default to local instance
     ANTHROPIC_API_KEY: Optional[str] = None
-    GEMINI_API_KEY: str  # Required for the system to work
+    GEMINI_API_KEY: Optional[str] = None  # Deprecated - using OpenRouter
+
+    # OpenRouter Configuration (Primary LLM)
+    OPENROUTER_API_KEY: Optional[str] = None
+    OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
+    OPENROUTER_MODEL: str = "openai/gpt-4o-mini"  # GPT-4o-mini via OpenRouter
 
     # Database
-    DATABASE_URL: str
+    DATABASE_URL: str = "sqlite:///./robotics_app.db"  # Default SQLite
     COLLECTION_NAME: str = "book_knowledge"
 
     # Origins

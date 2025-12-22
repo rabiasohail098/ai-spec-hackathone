@@ -7,9 +7,7 @@ import logging
 import uuid
 import os
 from pathlib import Path
-
-import google.generativeai as genai
-from app.core.config import settings
+from openai import OpenAI
 
 logger = logging.getLogger(__name__)
 
@@ -22,13 +20,15 @@ class QdrantVectorStore:
             api_key=settings.QDRANT_API_KEY,
         )
         logger.info(f"Using cloud Qdrant at {settings.QDRANT_URL}")
-        
-        # Initialize Gemini client for embeddings
-        genai.configure(api_key=settings.GEMINI_API_KEY)
-        
+
+        # Initialize OpenAI client for embeddings (replaced Gemini)
+        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
+        self.embedding_model = "text-embedding-3-small"
+        self.embedding_dimensions = 1536  # OpenAI embedding size
+
         # Collection name
         self.collection_name = settings.COLLECTION_NAME
-        
+
         # Create the collection if it doesn't exist
         self._initialize_collection()
     
@@ -44,7 +44,7 @@ class QdrantVectorStore:
                 self.client.create_collection(
                     collection_name=self.collection_name,
                     vectors_config=models.VectorParams(
-                        size=768,  # Size for Gemini embeddings
+                        size=self.embedding_dimensions,  # Size for OpenAI embeddings (1536)
                         distance=models.Distance.COSINE
                     ),
                 )
@@ -58,32 +58,21 @@ class QdrantVectorStore:
                 
     
     def _generate_embedding(self, text: str) -> List[float]:
-        """Generate embedding for text using Google's Generative AI"""
+        """Generate embedding for text using OpenAI's API"""
         try:
-            # Truncate text if it's too long (Gemini has limits)
-            if len(text) > 20000:  # Adjust based on Gemini's limit
-                text = text[:20000]
+            # Truncate text if it's too long (OpenAI has 8191 token limit)
+            if len(text) > 30000:  # Approximate character limit
+                text = text[:30000]
 
-            result = genai.embed_content(
-                model="models/embedding-001",
-                content=text
+            response = self.openai_client.embeddings.create(
+                model=self.embedding_model,
+                input=text
             )
-            return result['embedding']
+            return response.data[0].embedding
         except Exception as e:
             logger.error(f"Error generating embedding: {str(e)}")
-            # Return a zero vector as fallback (though this is not ideal)
-            # In production, you'd want to handle this more gracefully
-            try:
-                # Try with a different model
-                result = genai.embed_content(
-                    model="text-embedding-004",  # Alternative model
-                    content=text[:10000]  # Shorter text
-                )
-                return result['embedding']
-            except:
-                logger.error("Also failed to generate embedding with alternative model")
-                # As a last resort, return a placeholder
-                return [0.0] * 768  # Common embedding size
+            # As a last resort, return a placeholder
+            return [0.0] * self.embedding_dimensions
     
     def add_document(self, content: str, metadata: Dict[str, Any], doc_id: Optional[str] = None) -> str:
         """Add a document to the Qdrant collection"""

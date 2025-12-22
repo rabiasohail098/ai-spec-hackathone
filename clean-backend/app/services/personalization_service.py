@@ -20,8 +20,11 @@ import time
 
 logger = logging.getLogger(__name__)
 
-# Initialize OpenAI client
-client = OpenAI(api_key=settings.OPENAI_API_KEY)
+# Initialize OpenRouter client (using OpenAI SDK with custom base_url)
+client = OpenAI(
+    api_key=settings.OPENROUTER_API_KEY,
+    base_url=settings.OPENROUTER_BASE_URL
+)
 
 # Learning level definitions
 LEARNING_LEVELS = {
@@ -62,7 +65,7 @@ class PersonalizationService:
 
     def __init__(self):
         """Initialize personalization service."""
-        self.model = settings.LLM_MODEL
+        self.model = settings.OPENROUTER_MODEL  # Use OpenRouter model
         self.max_chunk_size = 3000  # Characters per chunk
 
     def personalize_content(
